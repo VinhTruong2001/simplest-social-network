@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .icon-header {
+        @apply hover:bg-gray-200 p-2 rounded-full cursor-pointer box-content
+    }
+
+    .icon-header-app {
+        @apply flex flex-col justify-center items-center cursor-pointer rounded-[30px] hover:bg-gray-100 p-4 text-center
+    }
+
+    .btn-primary {
+        @apply py-1 rounded-md bg-[#377dff] text-white
+    }
+}
+
+
+.sidebarRowActive {
+    background-color: rgba(243, 244, 246);
+    pointer-events: none;
+}
+
+.sidebarRowActive p,
+.sidebarRowActive svg
+{
+    color: #1a73e8;
+}
+
+.sidebarRowActive::after,
+.sidebarRowActive::before {
+    content: "";
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background-image: url('/images/download.svg');
+    background-size: 100%;
+    right: -1px;
+    margin-top: -1px;
+    z-index: 10;
+}
+
+.sidebarRowActive::before {
+    transform: rotate(90deg);
+    margin-top: -29px;
+}
+
+/* Swiper */
+.swiper-button-disabled {
+    display: none !important;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+    width: 30px !important;
+    height: 30px !important;
+    margin-top: calc(0px - 160px/8) !important;
+    padding: 2px !important;
+    background-color: white !important;
+    border-radius: 999px !important;
+    color: #888 !important;
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+    font-size: 15px !important;
+    font-weight: 700 !important;
+}
+
+@media (max-width: 1024px) {
+    .swiper-button-next,
+    .swiper-button-prev {
+        display: none !important;
+    }
+    .swiper {
+        box-sizing: border-box !important;
+        padding: 0 8px !important;
+    }
+}
+                    

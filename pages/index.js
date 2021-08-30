@@ -1,82 +1,85 @@
 import Head from 'next/head'
+import { useStateValue } from '../components/common/StateProvider';
+import { actionTypes } from '../components/common/reducer';
+
+import Sidebar from '../components/Sidebar'
+import Header from '../components/Header'
+import LoginForm from '../components/LoginForm';
+import Feed from '../components/Feed';
+import UploadAvatar from '../components/UploadAvatar';
+import { useEffect } from 'react';
 
 export default function Home() {
+  const [{ sidebarStatus, user, isChangeAvatar }, dispatch] = useStateValue();
+
+  useEffect(() => {
+    const userSession = window.sessionStorage;
+    const userInfo = userSession.length !== 0 ? JSON.parse(userSession[Object.keys(userSession)]) : null
+
+    dispatch({
+      type: actionTypes.SET_USER,
+      user: userInfo
+    })
+  }, [])
+
+  const toggleSideBar = () => {
+      dispatch({ 
+          type: actionTypes.TOGGLE_SIDEBAR,
+          sidebarStatus: false 
+      })
+  }
+  
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+    <>
+      { !user ?
+        <div>
+          <Head>
+            <title>Đăng nhập vào Simplest</title>
+            <link rel="icon" href="/favicon.png" />
+          </Head>
 
-      <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
-        <h1 className="text-6xl font-bold">
-          Welcome to{' '}
-          <a className="text-blue-600" href="https://nextjs.org">
-            Next.js!
-          </a>
-        </h1>
-
-        <p className="mt-3 text-2xl">
-          Get started by editing{' '}
-          <code className="p-3 font-mono text-lg bg-gray-100 rounded-md">
-            pages/index.js
-          </code>
-        </p>
-
-        <div className="flex flex-wrap items-center justify-around max-w-4xl mt-6 sm:w-full">
-          <a
-            href="https://nextjs.org/docs"
-            className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Documentation &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Find in-depth information about Next.js features and API.
-            </p>
-          </a>
-
-          <a
-            href="https://nextjs.org/learn"
-            className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Learn &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Learn about Next.js in an interactive course with quizzes!
-            </p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Examples &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Discover and deploy boilerplate example Next.js projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Deploy &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+          <LoginForm />
         </div>
-      </main>
+        :
+        (
+        <div className="bg-[#1d3faa] lg:px-7 h-screen relative">
+          <Head>
+            <title>Simplest</title>
+            <link rel="icon" href="/favicon.png" />
+          </Head>
+    
+          
+          <main className="relative flex h-full">
+            {/* Sidebar */}
+            <Sidebar />
+    
+            <div className="lg:py-4 h-full flex-1">
+              <div className="bg-gray-100 h-full lg:rounded-tl-[30px] lg:rounded-bl-[30px] pb-4 scrollbar-thin scrollbar-thumb-transparent scrollbar-track-transparent lg:scrollbar-thumb-gray-400 scrollbar-thumb-rounded-full">
+                {/* Header */}
+                <Header />
+    
+                <div className="lg:grid lg:grid-cols-2 lg:pl-[180px] lg:pr-6">
+                  {/* Feed */}
+                  <Feed />
 
-      <footer className="flex items-center justify-center w-full h-24 border-t">
-        <a
-          className="flex items-center justify-center"
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className="h-4 ml-2" />
-        </a>
-      </footer>
-    </div>
+                  {/* Widgets */}
+                  <div></div>
+                </div>
+              </div>
+            </div>
+          </main>
+          
+          
+          <div className={`flex items-center justify-center absolute top-0 h-screen left-0 right-0 ${!sidebarStatus && !isChangeAvatar && 'hidden'}`}>
+            <div onClick={ toggleSideBar } className={`overlay fixed top-0 bottom-0 left-0 right-0 bg-black opacity-40 ${isChangeAvatar ? 'z-[60]' : 'z-40'}`}></div>
+            
+            { isChangeAvatar && 
+              <UploadAvatar />
+            }
+          </div>
+        </div>
+        )
+    }
+    </>
   )
 }
