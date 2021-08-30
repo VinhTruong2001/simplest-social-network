@@ -1,7 +1,7 @@
 export const initialState = {
     sidebarStatus: false,
     postModalStatus: false,
-    isChangeAvatar: true,
+    isChangeAvatar: false,
     user: null,
 }
 
