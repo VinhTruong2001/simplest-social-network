@@ -3,6 +3,18 @@
 @tailwind utilities;
 
 @layer components {
+    input {
+        @apply outline-none;
+    }
+
+    button {
+        @apply outline-none;
+    }
+
+    * {
+        -webkit-tap-highlight-color: transparent;
+    }
+
     .icon-header {
         @apply hover:bg-gray-200 p-2 rounded-full cursor-pointer box-content
     }
@@ -14,8 +26,11 @@
     .btn-primary {
         @apply py-1 rounded-md bg-[#377dff] text-white
     }
-}
 
+    .btn-cancel {
+        @apply bg-gray-300 text-gray-600 rounded-md 
+    }
+}
 
 .sidebarRowActive {
     background-color: rgba(243, 244, 246);
@@ -66,6 +81,18 @@
 .swiper-button-prev::after {
     font-size: 15px !important;
     font-weight: 700 !important;
+}
+
+.auth .swiper-button-next,
+.auth .swiper-button-prev {
+    background-color: transparent !important;
+}
+
+.auth .swiper-button-next::after,
+.auth .swiper-button-prev::after {
+    font-size: 40px !important;
+    font-weight: 900 !important;
+    color:#1a73e8
 }
 
 @media (max-width: 1024px) {

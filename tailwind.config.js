@@ -7,6 +7,9 @@ module.exports = {
       boxShadow: {
         inner: 'inset 0 -160px 10px rgba(0, 0, 0, 0.1)',
       },
+      transitionProperty: {
+        'height': 'height',
+      }
     },
   },
   variants: {
